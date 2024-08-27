@@ -146,3 +146,19 @@ Simulation parameters can be adjusted, and the simulation can be restarted or te
 Scalability: Design the system to handle increasing complexity (e.g., adding more solvers, integrating with other systems).
 Extensibility: Allow future extensions, such as adding more detailed solvers or expanding the UI capabilities.
 Performance Optimization: Implement strategies for efficient computation, especially for large-scale simulations.
+
+
+
+
+
+##
+
+\[
+\frac{1}{\sqrt{f}} = -2\log\left(\frac{\epsilon/D}{3.7} + \frac{2.51}{\text{Re} \cdot \sqrt{f}}\right)
+\]
+
+Where:
+- \( f \) is the Darcy-Weisbach friction factor
+- \( \epsilon \) is the roughness height of the pipe
+- \( D \) is the diameter of the pipe
+- \( \text{Re} \) is the Reynolds number
