@@ -20,7 +20,7 @@ namespace io
     class ConfigParser
     {
     public:
-        ConfigParser(/* args */);
+        ConfigParser(const std::string&);
 
         ConfigParser(const ConfigParser&) = delete;
         ConfigParser& operator= (const ConfigParser&) = delete;
