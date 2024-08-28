@@ -3,10 +3,18 @@
 
 #define ALL_OK 0
 #define UNUSED 1
+#define GRAVITY 9.81
 
-// water quality
+
+// water params
+#define DEFAULT 0.0
+#define PERFECT 100
 #define BOD_DECAY_RATE 0.23
 #define MIN_ALLOWABLE_PH 0.65
+#define ROOM_TEMPERATURE 25.0
+#define PH_NEUTRAL 7.0
+#define WATER_DENSITY 1000      /* kg/m^3*/
+
 
 // pipe
 #define PIPE_AGE_MAX 25
