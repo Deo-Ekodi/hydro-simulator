@@ -26,75 +26,69 @@ namespace core
 		Pipe(
 			uint32_t _id, double _length, 
 			double _diameter, double _roughness, 
-			double _slope, Node _start, Node _end)
+			double _slope, Node* _start, Node* _end)
 			: id(_id), 
 			length(_length),
 			diameter(_diameter), 
 			roughness(_roughness), 
 			slope(_slope), 
-			start(_start), 
-			end(_end)
+			start_node(_start), 
+			end_node(_end)
 			{
 				initialize_default_values();
 			}
 
-		/**
-		 * core attributes
-		 */
+		// core attributes
 		uint32_t id;					/* unique identifier */
 		double length;					/* length of pipe */
 		double roughness;				/* rouhness coefficient */
 		double slope;					/* gradient */
 		double diameter;				/* diameter if pipe*/
-		Node start;						/* starting point */
-		Node end;						/* end point */
+		Node* start_node;				/* start node */
+		Node* end_node;					/* end node */
 
-		/**
-		 * flow attributes
-		 */
+		// flow attributes
 		double flowrate;
 		double velocity;
 		double pressure;
 		double headloss;
 		double reynoldsnumber;
+		double maxflowrate;
+		bool is_flowreversed;
 
-		/**
-		 * quality attributes
-		 */
+		// quality attributes
 		std::vector<double> pollutantconcentration;			/* mg/L */
 		double temperature;
 		double pH;
 		double dissolvedoxygen;
 		double BOD;
 		double COD;
+		double decaycoefficient;		/* pollutant decay */
 
-		/**
-		 * structural attributes
-		 */
+		// structural attributes
 		double wallthickness;
 		double maximumpressure;
 		double corrosionrate;
 		double age;
+		double leakagerate;
+		double healthindex;
 		std::string material;
 		bool is_corroded;
 
-		/**
-		 * Maintenance Attributes
-		 */
+		// Maintenance attributes
 		bool needs_inspection;          /* Flag for inspection necessity */
 		double lastinspectiondate;     /* Date of last inspection (Julian date) */
 		double repaircostestimate;     /* Estimated cost for repair ($) */
 		bool is_underrepair;            /* Repair status (true/false) */
 
-		/**
-		 * initialize to default values
-		 */
+		// initialize to default values
 		void initialize_default_values()
 		{
 			flowrate = 0.0;
 			velocity = 0.0;
 			pressure = 0.0;
 			headloss = 0.0;
+			maxflowrate = calculate_max_flowrate();
 			reynoldsnumber = 0.0;
 			temperature = 0.0;
 			pH = 7.0;
@@ -110,6 +104,28 @@ namespace core
 			lastinspectiondate = 0.0;
 			repaircostestimate = 0.0;
 			is_underrepair = false;
+			healthindex = PERFECT;
+			leakagerate = 0.0;
+			decaycoefficient = POLLUTANT_DECAY_RATE;
+			is_flowreversed = false;
+		}
+
+		double calculate_max_flowrate()
+		{
+			return std::pow(diameter, 2) * slope * roughness;
+		}
+
+		// to be ckecked
+		void connect_to_network()
+		{
+			start_node->connect_pipe(id);
+			end_node->connect_pipe(id);
+		}
+
+		void disconnect_from_network()
+		{
+			start_node->disconnect_pipe(id);
+			end_node->disconnect_pipe(id);
 		}
 
 		void calculate_velocity()
@@ -119,8 +135,7 @@ namespace core
 				// v = Q / A
 				velocity = (4 * flowrate) / (std::numbers::pi * std::pow(diameter, 2));
 			}
-			else
-			{
+			else{
 				throw std::runtime_error("invalid diameter of pipe!");
 			}
 		}
@@ -167,7 +182,6 @@ namespace core
 		/**
 		 * friction factor
 		 * Colebrook-White equation
-		 * 
 		 */
 		double calculate_frictionfactor()
 		{
@@ -190,6 +204,15 @@ namespace core
 			}
 		}
 
+		void check_flowdirection()
+		{
+			// pressure relativity check
+			is_flowreversed = start_node->pressure < end_node->pressure;
+			if(is_flowreversed){
+				std::swap(start_node, end_node);
+			}
+		}
+
 		// apply pressure change (e.g. due to pump or valve)
 		void pressurechange(double& delta_pressure)
 		{
@@ -206,6 +229,17 @@ namespace core
 		{
 			double decay_rate = BOD_DECAY_RATE; 	/* decay rate per day */
 			BOD *= std::exp(-decay_rate * timestep);
+		}
+
+		void assess_condition()
+		{
+			// deducting points
+			if (is_corroded){
+				healthindex -= 5.0;
+			}
+			if (leakagerate > 0.0){
+				healthindex -= 5.0;
+			}
 		}
 
 		bool check_inspection_necessity()
@@ -228,7 +262,7 @@ namespace core
 			return repaircostestimate;
 		}
 
-		void perform_inspection()
+		void inspect()
 		{
 			is_corroded = check_corrosion();
 			lastinspectiondate = get_current_julian_date();
@@ -252,4 +286,4 @@ namespace core
 } // namespace core
 
 
-#endif
+#endif	// PIPE_H
