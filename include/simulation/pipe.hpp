@@ -1,8 +1,5 @@
-#pragma once
-
-/**
- * PIPE
- */
+#ifndef PIPE_H
+#define PIPE_H
 
 #include "../util.hpp"
 #include "../utility/Node.hpp"
@@ -26,12 +23,20 @@ namespace core
 	class Pipe
 	{
 	public:
-		Pipe(uint32_t _id, double _length, double _diameter, double _roughness, double _slope)
-			: id(_id), length(_length),diameter(_diameter), roughness(_roughness), slope(_slope)
+		Pipe(
+			uint32_t _id, double _length, 
+			double _diameter, double _roughness, 
+			double _slope, Node _start, Node _end)
+			: id(_id), 
+			length(_length),
+			diameter(_diameter), 
+			roughness(_roughness), 
+			slope(_slope), 
+			start(_start), 
+			end(_end)
 			{
 				initialize_default_values();
 			}
-		~Pipe();
 
 		/**
 		 * core attributes
@@ -41,6 +46,8 @@ namespace core
 		double roughness;				/* rouhness coefficient */
 		double slope;					/* gradient */
 		double diameter;				/* diameter if pipe*/
+		Node start;						/* starting point */
+		Node end;						/* end point */
 
 		/**
 		 * flow attributes
@@ -182,6 +189,67 @@ namespace core
 				return frictionfactor;
 			}
 		}
+
+		// apply pressure change (e.g. due to pump or valve)
+		void pressurechange(double& delta_pressure)
+		{
+			pressure += delta_pressure;
+		}
+
+		/**
+		 * update water quality parameters based on chemical reactions 
+		 * @param BOD Biochemical Oxygen Demand
+		 * @param TSS Total Suspended Solids
+		 * @param ... other water quality parameters to be defined here
+		 */
+		void update_waterquality(double& timestep)
+		{
+			double decay_rate = BOD_DECAY_RATE; 	/* decay rate per day */
+			BOD *= std::exp(-decay_rate * timestep);
+		}
+
+		bool check_inspection_necessity()
+		{
+			if(age > PIPE_AGE_MAX || is_corroded || needs_repair()){
+				needs_inspection = true;
+			}
+			return needs_inspection;
+		}
+
+		bool needs_repair()
+		{
+			return (pressure > maximumpressure) || (is_corroded && corrosionrate > CORROSION_RATE_MAX);
+		}
+
+		double estimate_repaircost()
+		{
+			double material_factor = (material == "PVC") ? MATERIAL_COST_FACTOR_PVC : MATERIAL_COST_FACTOR_GENERIC;
+			repaircostestimate = material_factor * length * diameter * (is_corroded ? REPAIR_FACTOR_CORRODED : REPAIR_FACTOR_NON_CORRODED);
+			return repaircostestimate;
+		}
+
+		void perform_inspection()
+		{
+			is_corroded = check_corrosion();
+			lastinspectiondate = get_current_julian_date();
+		}
+
+		bool check_corrosion()
+		{
+			return (age > PIPE_AGE_MAX && pH < MIN_ALLOWABLE_PH);
+		}
+		
+		double get_current_julian_date(){
+			return 2459580.5;	/* magic number - to be worked on */
+		}
+
+		void log_pipeinfo() const
+		{
+			;;;;
+		}
 	};
 
 } // namespace core
+
+
+#endif
