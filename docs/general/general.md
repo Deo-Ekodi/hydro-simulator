@@ -153,9 +153,9 @@ Performance Optimization: Implement strategies for efficient computation, especi
 
 ##
 
-\[
+$`\[
 \frac{1}{\sqrt{f}} = -2\log\left(\frac{\epsilon/D}{3.7} + \frac{2.51}{\text{Re} \cdot \sqrt{f}}\right)
-\]
+\]`$
 
 Where:
 - \( f \) is the Darcy-Weisbach friction factor
