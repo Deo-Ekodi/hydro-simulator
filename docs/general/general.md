@@ -158,7 +158,7 @@ $`[
 ]`$
 
 Where:
-- $`\( f \)`$ is the Darcy-Weisbach friction factor
-- $`\( \epsilon \)`$ is the roughness height of the pipe
-- $`\( D \)`$ is the diameter of the pipe
-- $`\( \text{Re} \)`$ is the Reynolds number
+- $`( f )`$ is the Darcy-Weisbach friction factor
+- $`( \epsilon \)`$ is the roughness height of the pipe
+- $`( D \)`$ is the diameter of the pipe
+- $`( \text{Re} )`$ is the Reynolds number
