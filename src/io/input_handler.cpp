@@ -10,6 +10,11 @@ void InputHandler::read_csv()
     ;
 }
 
+InputHandler InputHandler::get_boundary_conditions () const
+{
+    return;
+}
+
 void InputHandler::read_tsv()
 {
     std::ifstream file(file_name);

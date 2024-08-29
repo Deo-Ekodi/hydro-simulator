@@ -36,6 +36,8 @@ namespace io
         std::vector<std::string> get_column_data(const std::string& column_name) const;
         std::string get_cell_data(uint32_t row, const std::string& column_name) const;
 
+        InputHandler get_boundary_conditions () const;
+
         ~InputHandler() noexcept = default;
     private:
         /* name of file parsed */
