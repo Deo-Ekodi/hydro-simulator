@@ -49,12 +49,13 @@ namespace core
         BoundaryConditions (BoundaryConditions&&) noexcept = default;
         BoundaryConditions& operator= (BoundaryConditions&&) noexcept = default;
 
-        void add_condition(const std::string& location, BoundaryType type, double value, const std::string& description = "");
-        void load_input_from_inputhandler (const InputHandler&);
+        void add_condition(const std::string& location, BoundaryType type, double value, std::string description);
+        void load_input_from_inputhandler (InputHandler&);
         void load_input_from_configparser (const ConfigParser&);
 
-        const BoundaryCondition& get_condition (const std::string&) const;
+        const BoundaryConditions& get_condition (const std::string&) const;
         void validate_conditions() const;
+        void validate_condition() const;
         void apply_to_model(WasteWaterModel&) const;
         void apply_to_pipe(Pipe&) const;
         ~BoundaryConditions() noexcept = default;
