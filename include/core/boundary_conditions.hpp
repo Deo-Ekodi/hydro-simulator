@@ -35,6 +35,14 @@ namespace core
             : std::runtime_error("boundary conditions : " + msg) {}
     };
 
+    /**
+     * apply boundary conoditions to :
+     * 1. pipes
+     * 2. waste water model
+     * 
+     * load input from:
+     * 1. configparser
+     */
     class BoundaryConditions
     {
     private:

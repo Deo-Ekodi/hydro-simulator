@@ -17,6 +17,9 @@ namespace io
             : std::runtime_error("config_parser : " + msg) {}
     };
 
+    /**
+     * handles configuration files and parsing to boundary conditions and inputhandler
+     */
     class ConfigParser
     {
     public:
