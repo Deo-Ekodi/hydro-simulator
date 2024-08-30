@@ -42,7 +42,7 @@ namespace core
         explicit WasteWaterModelException(const std::string& msg)
             : std::runtime_error (msg) {}
     };
-    
+
     class WasteWaterModel
     {
     private:
@@ -73,7 +73,7 @@ namespace core
         void initialize (const InputHandler&, const ConfigParser&);
         /* run simulation */
         void run_simulation();
-        /* boundary conditions - if any */
+        /* boundary conditions - to pipes if any */
         void apply_boundary_conditions(const BoundaryConditions&);
         /* retrieve results */
         const Results& get_results() const;
