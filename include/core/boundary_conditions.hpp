@@ -63,7 +63,6 @@ namespace core
 
         const BoundaryConditions& get_condition (const std::string&) const;
         void validate_conditions() const;
-        void validate_condition() const;
         void apply_to_model(WasteWaterModel&) const;
         void apply_to_pipe(Pipe&) const;
         ~BoundaryConditions() noexcept = default;
