@@ -1,98 +1,85 @@
 #include "../../include/io/input_handler.hpp"
+#include "../../include/utility/utility.hpp"
 
-using namespace io;
+#include <iomanip>
+#include <fstream>
+#include <sstream>
 
-InputHandler::InputHandler(const std::string& filename)
+io::InputHandler::InputHandler(const std::string& filename)
     : file_name (filename) {}
 
-void InputHandler::read_csv()
-{
-    ;
-}
-
-InputHandler InputHandler::get_boundary_conditions () const
-{
-    return;
-}
-
-void InputHandler::read_tsv()
+std::unordered_map<std::string, std::vector<io::variantType>> io::InputHandler::get_input_data()
 {
     std::ifstream file(file_name);
-    if(!file.is_open()){
-        throw InputHandlerException ("failed to open file : " + file_name);
+    if (!file.is_open())
+    {
+        throw InputHandlerException("failed to open " + file_name);
     }
 
     std::string line;
-    bool is_firstline = true;
 
-    while(std::getline(file, line)) {
-        if(is_firstline){
-            // first line : column headers
-            std::stringstream ss(line);
-            std::string column_name;
+    // read header keys
+    std::getline(file, line);
+    std::istringstream headerstream(line);
+    std::string key;
 
-            while(std::getline(ss, column_name, '\t')) {
-                column_names.emplace_back(column_name);
+    while (std::getline(headerstream, key, '\t'))
+    {
+        input_data[key] = std::vector<variantType>();
+        column_names.push_back(key);
+    }
+
+    // read data
+    while (std::getline(file, line))
+    {
+        std::istringstream linestream(line);
+        std::string value;
+        uint32_t index = 0;
+
+        while (std::getline(linestream, value, '\t'))
+        {
+            if (index < column_names.size())
+            {
+                if (util::_isdouble(value))
+                {
+                    input_data[column_names[index]].emplace_back(std::stod(value));
+                }
+                if (util::_isuint32_t(value))
+                {
+                    input_data[column_names[index]].emplace_back(static_cast<uint32_t>(std::stoul(value)));
+                }
+                else
+                {
+                    input_data[column_names[index]].emplace_back(value);
+                }
+                ++index;
             }
-
-            is_firstline = false;
-        }
-
-        else {
-            // not first line i.e. has data
-            data.emplace_back(parse_line(line));
         }
     }
-
-    file.close();
+    return input_data;
 }
 
-std::vector<std::string> InputHandler::get_column_data(const std::string& column_name) const
+void io::InputHandler::log() const
 {
-    std::vector<std::string> columndata;
-    for(const auto& row : data){
-        auto it = row.find(column_name);
-        if(it != row.end()) {
-            columndata.emplace_back(it->second);
+    // validate input_data before logging - tbd
+
+    for (const auto &[key, _] : input_data)
+    {
+        std::cout << std::setw(9) << key << "\t";
+    }
+
+    std::cout << std::endl;
+
+    // number of rows
+    uint32_t rows = input_data.begin()->second.size();
+
+    for (uint32_t i{0}; i < rows; ++i)
+    {
+        for (const auto &[key, values] : input_data)
+        {
+            std::visit([](const auto &val)
+                       { std::cout << std::setw(9) << val << "\t"; }, values[i]);
         }
-        else{
-            throw InputHandlerException ("column not found : " + column_name);
-        }
+        std::cout << std::endl;
     }
-    return columndata;
-}
-
-std::string InputHandler::get_cell_data(uint32_t row, const std::string& column_name) const
-{
-    if (row >= data.size()) {
-        throw InputHandlerException ("row out of bounds : " + std::to_string(row));
-    }
-
-    auto it = data[row].find(column_name);
-    if (it != data[row].end()) {
-        return it->second;
-    }
-    else {
-        throw InputHandlerException ("column not found : " + column_name);
-    }
-}
-
-std::unordered_map<std::string, std::string> InputHandler::parse_line(const std::string& line)
-{
-    std::unordered_map<std::string, std::string> row_data;
-    std::stringstream ss(line);
-    std::string cell;
-    uint32_t column_index = 0;
-
-    while (std::getline(ss, cell, '\t')) {
-        if (column_index < column_names.size()) {
-            row_data[column_names[column_index]] = cell;
-            ++column_index;
-        }
-        else {
-            throw InputHandlerException ("more cells than columns in line : " + line);
-        }
-    }
-
-    return row_data;
 }
