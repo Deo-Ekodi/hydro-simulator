@@ -4,11 +4,10 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <fstream>
 #include <stdexcept>
-#include <sstream>
 #include <iostream>
 #include <cstdint>
+#include <variant>
 
 namespace io
 {
@@ -18,6 +17,8 @@ namespace io
         explicit InputHandlerException(const std::string& msg)
             : std::runtime_error(msg) {}
     };
+
+    using variantType = std::variant<std::string, uint32_t, double>;
 
     class InputHandler
     {
@@ -30,24 +31,19 @@ namespace io
         InputHandler(InputHandler&&) noexcept = default;
         InputHandler& operator= (InputHandler&&) noexcept = default;
 
-        void read_tsv();
-        void read_csv();
+        std::unordered_map<std::string, std::vector<variantType>> get_input_data();
 
-        std::vector<std::string> get_column_data(const std::string& column_name) const;
-        std::string get_cell_data(uint32_t row, const std::string& column_name) const;
-
-        InputHandler get_boundary_conditions () const;
+        // InputHandler get_boundary_conditions () const;
 
         ~InputHandler() noexcept = default;
-    private:
+
         /* name of file parsed */
         std::string file_name;
         /* holding parsed data */
-        std::vector<std::unordered_map<std::string, std::string> > data;
+        std::unordered_map<std::string, std::vector<variantType>> input_data;
         /* list of column names */
         std::vector<std::string> column_names;
-        /* parse single line */
-        std::unordered_map<std::string, std::string> parse_line(const std:: string& line);
+        void log() const;
     };
     
 
