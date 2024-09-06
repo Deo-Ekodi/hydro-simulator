@@ -55,7 +55,7 @@ void WasteWaterModel::modify_results (OutputHandler& from_output_stream)
 void WasteWaterModel::setup_pipe__network(std::unordered_map<std::string, std::vector<variantType>>& data)
 {
     for (const auto& pair : data) {
-        Pipe pipe ();
+        Pipe* pipe = new Pipe;
         if (pair.first == "ID"){
             ;
         }

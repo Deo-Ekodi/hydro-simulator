@@ -1,7 +1,7 @@
 #include "../../include/utility/utility.hpp"
 #include "../../include/io/input_handler.hpp"
 
-using namespace util;
+using namespace hydro;
 using namespace hydro;
 
 bool is_uint(const std::string& str){

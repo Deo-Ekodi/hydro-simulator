@@ -43,7 +43,7 @@ void BoundaryConditions::apply_to_pipe(Pipe& pipe) const
     ;
 }
 
-void BoundaryConditions::validate_condition () const
+void BoundaryConditions::validate_condition (const BoundaryCondition& boundary) const
 {
     /**
      * BoundaryType::inlet

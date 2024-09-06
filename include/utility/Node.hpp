@@ -10,7 +10,7 @@
 #include <algorithm>
 
 #include "../util.hpp"
-namespace util
+namespace hydro
 {
 	/**
 	 * NODE represent points where pipes meet, change direction, 
@@ -27,7 +27,12 @@ namespace util
 	class Node
 	{
 	public:
-		Node(double _x, double _y, double _z = 0.0, uint32_t _id)
+		Node(uint32_t _id)	
+			: id(_id)
+		{
+			initialize_default_values();
+		}
+		Node(double _x = 0.0, double _y = 0.0, double _z = 0.0, uint32_t _id)
 			: x(_x), y(_y), z(_z), id(_id)
 		{
 			initialize_default_values();
@@ -142,7 +147,7 @@ namespace util
 
 	};
 	
-} // namespace util
+} // namespace hydro
 
 
 #endif

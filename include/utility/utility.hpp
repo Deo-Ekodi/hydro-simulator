@@ -7,7 +7,7 @@
 #include <cstdint>
 #include <sstream>
 
-namespace util
+namespace hydro
 {
     bool is_double(const std::string&);
     bool is_uint(const std::string&);

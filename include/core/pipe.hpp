@@ -14,7 +14,7 @@
 #include <cmath>
 #include <exception>
 
-using namespace util;
+using namespace hydro;
 
 namespace hydro
 {
@@ -23,6 +23,7 @@ namespace hydro
 	class Pipe
 	{
 	public:
+		Pipe() = default;
 		Pipe(
 			uint32_t _id, double _length, 
 			double _diameter, double _roughness = 0.0, 

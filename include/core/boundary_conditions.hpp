@@ -12,8 +12,6 @@
 #include "pipe.hpp"
 #include "waste_water_model.hpp"
 
-using namespace hydro;
-
 namespace hydro
 {
     enum class BoundaryType

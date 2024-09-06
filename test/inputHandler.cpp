@@ -68,14 +68,17 @@ std::unordered_map<std::string, std::vector<variantType>> InputHandler::get_inpu
         {
             if (index < column_names.size())
             {
-                if (is_double(value))
+                // double can be narrow converted to uint32_t
+                if (is_double(value) && !is_uint(value))
                 {
                     input_data[column_names[index]].emplace_back(std::stod(value));
                 }
-                if (is_uint(value) && !is_double(value))
+                // uint32_t can't be read as a double
+                if (is_uint(value))
                 {
                     input_data[column_names[index]].emplace_back(static_cast<uint32_t>(std::stoul(value)));
                 }
+                // std::string is neither double nor uint
                 if (!is_double(value) && !(is_uint(value)))
                 {
                     input_data[column_names[index]].emplace_back(value);
@@ -84,9 +87,9 @@ std::unordered_map<std::string, std::vector<variantType>> InputHandler::get_inpu
             }
         }
     }
-    for (const auto& [key, vec]: input_data){
-        std::cout << key << "\t" << vec.size() << std::endl;
-    }
+    // for (const auto& [key, vec]: input_data){
+    //     std::cout << key << "\t" << vec.size() << std::endl;
+    // }
     file.close();
     return input_data;
 }
@@ -110,7 +113,7 @@ void InputHandler::log() const
         for (const auto &[key, values] : input_data)
         {
             std::visit([](const auto &val)
-                       { std::cout << std::setw(9) << val << "\t"; }, values[i]);
+                       { std::cout << std::setw(9) << typeid(val).name() << "\t"; }, values[i]);
         }
         std::cout << std::endl;
     }

@@ -8,7 +8,7 @@ CXXFLAGS = -g -std=c++23 -Wall -Wextra -pedantic
 TARGET = input
 
 # source files
-SRCS = main.cpp inputHandler.cpp
+SRCS = main.cpp inputHandler.cpp wwm.cpp
 
 # object files : derived from source files
 OBJS = $(SRCS:.cpp=.o)
