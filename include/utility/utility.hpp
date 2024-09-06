@@ -9,8 +9,8 @@
 
 namespace util
 {
-    bool _isdouble(const std::string&);
-    bool _isuint32_t(const std::string&);
+    bool is_double(const std::string&);
+    bool is_uint(const std::string&);
 };
 
 #endif

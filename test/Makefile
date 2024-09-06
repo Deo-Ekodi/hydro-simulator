@@ -2,7 +2,7 @@
 CXX = g++
 
 # compiler flags
-CXXFLAGS = -std=c++23 -Wall -Wextra -pedantic
+CXXFLAGS = -g -std=c++23 -Wall -Wextra -pedantic
 
 # executable
 TARGET = input
@@ -23,3 +23,4 @@ $(TARGET): $(OBJS)
 
 clean:
 	rm -f $(OBJS) $(TARGET)
+	clear

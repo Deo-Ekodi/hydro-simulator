@@ -1,25 +1,41 @@
 #include "inputhandler.hpp"
 #include <fstream>
 #include <iomanip>
+#include <cctype>
+#include <algorithm>
 
-bool is_double(const std::string &str)
-{
-    std::istringstream iss(str);
-    double d;
-    return iss >> d >> std::ws && iss.eof();
+bool is_uint(const std::string& str){
+    if (str.empty()) return false;
+    for (char c : str) {
+        if (!isdigit(c)) return false;
+    }
+    return true;
 }
 
-bool isUint32_t(const std::string &str)
-{
+bool is_double(const std::string& str){
     std::istringstream iss(str);
-    uint32_t u;
-    return iss >> u >> std::ws && iss.eof();
+    double d;
+    iss >> std::noskipws >> d;
+    return iss.eof() && !iss.fail();
+}
+
+bool is_alphabetic(const std::string& str){
+    for (const auto& x : str) {
+        if (!isalpha((int)x)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void printVariant(const variantType& var) {
+    std::visit([](const auto& value) {
+        std::cout << value << " ";  // Print the value stored in the variant
+    }, var);
 }
 
 std::unordered_map<std::string, std::vector<variantType>> InputHandler::get_input_data()
 {
-    // std::unordered_map<std::string, std::vector<variantType>> input_data;
-
     std::ifstream file(file_name);
     if (!file.is_open())
     {
@@ -28,13 +44,14 @@ std::unordered_map<std::string, std::vector<variantType>> InputHandler::get_inpu
 
     std::string line;
 
-    // read header keys
+    // read header keys - columns
     std::getline(file, line);
     std::istringstream headerstream(line);
     std::string key;
 
     while (std::getline(headerstream, key, '\t'))
     {
+        key.erase(std::remove(key.begin(), key.end(), '\r'), key.end());
         input_data[key] = std::vector<variantType>();
         column_names.push_back(key);
     }
@@ -42,6 +59,7 @@ std::unordered_map<std::string, std::vector<variantType>> InputHandler::get_inpu
     // read data
     while (std::getline(file, line))
     {
+        line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
         std::istringstream linestream(line);
         std::string value;
         uint32_t index = 0;
@@ -54,11 +72,11 @@ std::unordered_map<std::string, std::vector<variantType>> InputHandler::get_inpu
                 {
                     input_data[column_names[index]].emplace_back(std::stod(value));
                 }
-                if (isUint32_t(value))
+                if (is_uint(value) && !is_double(value))
                 {
                     input_data[column_names[index]].emplace_back(static_cast<uint32_t>(std::stoul(value)));
                 }
-                else
+                if (!is_double(value) && !(is_uint(value)))
                 {
                     input_data[column_names[index]].emplace_back(value);
                 }
@@ -66,7 +84,10 @@ std::unordered_map<std::string, std::vector<variantType>> InputHandler::get_inpu
             }
         }
     }
-    
+    for (const auto& [key, vec]: input_data){
+        std::cout << key << "\t" << vec.size() << std::endl;
+    }
+    file.close();
     return input_data;
 }
 
@@ -92,5 +113,25 @@ void InputHandler::log() const
                        { std::cout << std::setw(9) << val << "\t"; }, values[i]);
         }
         std::cout << std::endl;
+    }
+}
+
+void InputHandler::log_columns () const
+{
+    for (const auto& pair : input_data) {
+        std::cout << pair.first << std::endl;  // pair.first gives the key (std::string)
+    }
+
+    std::cout << std::endl;
+}
+
+std::vector<variantType> InputHandler::get_column_data(const std::string &key)
+{
+    if (std::count(column_names.begin(), column_names.end(), key) > 0){
+        std::vector<variantType> vec = input_data[key];
+        return vec;
+    }
+    else {
+        throw InputHandlerException ("failed to read column [" + key + "]");
     }
 }
