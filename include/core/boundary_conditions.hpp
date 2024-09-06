@@ -14,7 +14,7 @@
 
 using namespace hydro;
 
-namespace core
+namespace hydro
 {
     enum class BoundaryType
     {
@@ -68,7 +68,7 @@ namespace core
         ~BoundaryConditions() noexcept = default;
     };
 
-} // namespace core
+} // namespace hydro
 
 
 #endif

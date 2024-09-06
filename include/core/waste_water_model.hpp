@@ -34,7 +34,7 @@
  */
 
 
-namespace core
+namespace hydro
 {
     class WasteWaterModelException : public std::runtime_error
     {
@@ -84,7 +84,7 @@ namespace core
         ~WasteWaterModel() noexcept = default;
     };
 
-} // namespace core
+} // namespace hydro
 
 
 #endif

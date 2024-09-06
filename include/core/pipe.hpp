@@ -16,7 +16,7 @@
 
 using namespace util;
 
-namespace core
+namespace hydro
 {
 
 	constexpr double gravity = 9.81;
@@ -283,7 +283,7 @@ namespace core
 		}
 	};
 
-} // namespace core
+} // namespace hydro
 
 
 #endif	// PIPE_H

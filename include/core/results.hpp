@@ -9,7 +9,7 @@
 #include <unordered_map>
 #include <algorithm>
 
-namespace core
+namespace hydro
 {
     class ResultsException : public std::runtime_error
     {
@@ -119,7 +119,7 @@ namespace core
 
         ~Results() noexcept = default;
     };
-} // namespace core
+} // namespace hydro
 
 
 #endif  // RESULTS_H

@@ -1,6 +1,6 @@
 #include "../../include/core/waste_water_model.hpp"
 
-using namespace core;
+using namespace hydro;
 using namespace hydro;
 
 // void WasteWaterModel::initialize(const InputHandler& input_handler, const ConfigParser& config_parser)
@@ -54,7 +54,12 @@ void WasteWaterModel::modify_results (OutputHandler& from_output_stream)
 
 void WasteWaterModel::setup_pipe__network(std::unordered_map<std::string, std::vector<variantType>>& data)
 {
-    ;
+    for (const auto& pair : data) {
+        Pipe pipe ();
+        if (pair.first == "ID"){
+            ;
+        }
+    }
 }
 
 void WasteWaterModel::validate_model () const
