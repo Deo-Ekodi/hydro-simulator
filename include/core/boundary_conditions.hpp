@@ -12,7 +12,7 @@
 #include "pipe.hpp"
 #include "waste_water_model.hpp"
 
-using namespace io;
+using namespace hydro;
 
 namespace core
 {

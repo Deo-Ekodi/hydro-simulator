@@ -6,12 +6,12 @@
 #include <sstream>
 #include <algorithm>
 
-using namespace io;
+using namespace hydro;
 
-io::InputHandler::InputHandler(const std::string& filename)
+hydro::InputHandler::InputHandler(const std::string& filename)
     : file_name (filename) {}
 
-std::unordered_map<std::string, std::vector<io::variantType>> io::InputHandler::get_input_data()
+std::unordered_map<std::string, std::vector<hydro::variantType>> hydro::InputHandler::get_input_data()
 {
     std::ifstream file(file_name);
     if (!file.is_open())
@@ -66,7 +66,7 @@ std::unordered_map<std::string, std::vector<io::variantType>> io::InputHandler::
     return input_data;
 }
 
-void io::InputHandler::log() const
+void hydro::InputHandler::log() const
 {
     // validate input_data before logging
 
@@ -96,7 +96,7 @@ void io::InputHandler::log() const
     }
 }
 
-void io::InputHandler::log_columns () const
+void hydro::InputHandler::log_columns () const
 {
     for (const auto& pair : input_data) {
         std::cout << pair.first << std::endl;  // pair.first gives the key (std::string)
@@ -105,7 +105,7 @@ void io::InputHandler::log_columns () const
     std::cout << std::endl;
 }
 
-std::vector<variantType> io::InputHandler::get_column_data(const std::string &key) const
+std::vector<variantType> hydro::InputHandler::get_column_data(const std::string &key) const
 {
     if (std::count(column_names.begin(), column_names.end(), key) > 0){
         std::vector<variantType> vec = input_data[key];
@@ -116,7 +116,7 @@ std::vector<variantType> io::InputHandler::get_column_data(const std::string &ke
     }
 }
 
-bool io::InputHandler::is_valid(const std::unordered_map<std::string, std::vector<variantType>>& data) const
+bool hydro::InputHandler::is_valid(const std::unordered_map<std::string, std::vector<variantType>>& data) const
 {
     for (const auto& pair : data) {
         if (pair.second.empty()) {

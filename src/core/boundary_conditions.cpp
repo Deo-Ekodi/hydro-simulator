@@ -1,7 +1,7 @@
 #include "../../include/core/boundary_conditions.hpp"
 
 using namespace core;
-using namespace io;
+using namespace hydro;
 
 void BoundaryConditions::add_condition(const std::string& location, BoundaryType type, double value, std::string description = "")
 {

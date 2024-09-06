@@ -1,7 +1,7 @@
 #include "../../include/core/waste_water_model.hpp"
 
 using namespace core;
-using namespace io;
+using namespace hydro;
 
 // void WasteWaterModel::initialize(const InputHandler& input_handler, const ConfigParser& config_parser)
 void WasteWaterModel::initialize()

@@ -8,7 +8,7 @@
 #include <sstream>
 #include <iostream>
 
-namespace io
+namespace hydro
 {
     class ConfigParserException : public std::runtime_error
     {
@@ -48,7 +48,7 @@ namespace io
         std::pair<std::string, double> parse_line(const std::string& line);
     };
 
-} // namespace io
+} // namespace hydro
 
 
 

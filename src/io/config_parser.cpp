@@ -1,6 +1,6 @@
 #include "../../include/io/config_parser.hpp"
 
-using namespace io;
+using namespace hydro;
 
 ConfigParser::ConfigParser(const std::string& filename)
     : file_name(filename) {}

@@ -9,7 +9,7 @@
 #include <cstdint>
 #include <variant>
 
-namespace io
+namespace hydro
 {
     class InputHandlerException : public std::runtime_error
     {
@@ -52,7 +52,7 @@ namespace io
 
     
     
-} // namespace io
+} // namespace hydro
 
 
 #endif
