@@ -45,7 +45,7 @@ namespace hydro
         std::vector<std::string> column_names;
         void log() const;
         void log_columns() const;
-        std::vector<variantType> get_column_data(const std::string&) const;
+        std::vector<variantType> get_column_data(const std::string&);
         bool is_valid(const std::unordered_map<std::string, std::vector<variantType>>&) const;
     };
     

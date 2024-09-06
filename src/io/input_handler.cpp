@@ -106,7 +106,7 @@ void hydro::InputHandler::log_columns () const
     std::cout << std::endl;
 }
 
-std::vector<variantType> hydro::InputHandler::get_column_data(const std::string &key) const
+std::vector<variantType> hydro::InputHandler::get_column_data(const std::string &key)
 {
     if (std::count(column_names.begin(), column_names.end(), key) > 0){
         std::vector<variantType> vec = input_data[key];
