@@ -25,8 +25,8 @@ namespace core
 	public:
 		Pipe(
 			uint32_t _id, double _length, 
-			double _diameter, double _roughness, 
-			double _slope, Node* _start, Node* _end)
+			double _diameter, double _roughness = 0.0, 
+			double _slope = 0.0, Node* _start, Node* _end)
 			: id(_id), 
 			length(_length),
 			diameter(_diameter), 

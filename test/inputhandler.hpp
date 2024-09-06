@@ -17,7 +17,7 @@ public:
         : std::runtime_error ("input_handler : " + msg) {}
 };
 
-using variantType = std::variant<std::string, double, uint32_t>;
+using variantType = std::variant<std::string, double, uint32_t, int>;
 
 class InputHandler
 {
@@ -27,12 +27,9 @@ public:
      * variant contains data in columns
      */
     std::unordered_map< std::string, std::vector<variantType>> get_input_data();
-    /**
-     * column names used as keys
-     */
-    std::vector<std::string> column_names;
-    std::unordered_map< std::string, std::vector<variantType>> input_data;
     void log() const;
+    void log_columns() const;
+    std::vector<variantType> get_column_data(const std::string&);
 
     InputHandler(const std::string& filename)
         : file_name (filename) {}
@@ -43,8 +40,13 @@ public:
     InputHandler (InputHandler&&) noexcept = default;
     InputHandler& operator= (InputHandler&&) noexcept = default;
 
+private:
     std::string file_name;
-
+    /**
+     * column names used as keys
+     */
+    std::vector<std::string> column_names;
+    std::unordered_map< std::string, std::vector<variantType>> input_data;
 };
 
 #endif

@@ -3,12 +3,19 @@
 using namespace core;
 using namespace io;
 
-void WasteWaterModel::initialize(const InputHandler& input_handler, const ConfigParser& config_parser)
+// void WasteWaterModel::initialize(const InputHandler& input_handler, const ConfigParser& config_parser)
+void WasteWaterModel::initialize()
 {
-    setup_pipe__network(input_handler);
-    boundary_conditions = std::make_shared<BoundaryConditions>();
-    boundary_conditions->load_input_from_configparser(config_parser);
-    simulation_time = 0.0;
+    /**
+     * new instance of input handler
+     */
+    InputHandler input("sata.tsv");
+    std::unordered_map<std::string, std::vector<variantType>> data = input.get_input_data();
+
+    setup_pipe__network(data);
+    // boundary_conditions = std::make_shared<BoundaryConditions>();
+    // boundary_conditions->load_input_from_configparser(config_parser);
+    // simulation_time = 0.0;
     
     // setup timestep from ConfigParser or InputHandler
     validate_model();
@@ -45,7 +52,7 @@ void WasteWaterModel::modify_results (OutputHandler& from_output_stream)
     // output handler can modify results
 }
 
-void WasteWaterModel::setup_pipe__network(const InputHandler& inp)
+void WasteWaterModel::setup_pipe__network(std::unordered_map<std::string, std::vector<variantType>>& data)
 {
     ;
 }

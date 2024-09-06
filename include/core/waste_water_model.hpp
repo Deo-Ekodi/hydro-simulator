@@ -47,7 +47,7 @@ namespace core
     {
     private:
         /* set up pipe network */
-        void setup_pipe__network(const InputHandler&);
+        void setup_pipe__network(std::unordered_map<std::string, std::vector<variantType>>&);
         /* validate model setup */
         void validate_model() const;
         /* solve flow equations */
@@ -70,7 +70,8 @@ namespace core
         WasteWaterModel& operator= (WasteWaterModel&&) noexcept = default;
 
         /* initialize model parameters */
-        void initialize (const InputHandler&, const ConfigParser&);
+        // void initialize (const InputHandler&, const ConfigParser&);
+        void initialize();
         /* run simulation */
         void run_simulation();
         /* boundary conditions - to pipes if any */
