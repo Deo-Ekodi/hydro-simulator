@@ -27,12 +27,22 @@ public:
      * variant contains data in columns
      */
     std::unordered_map< std::string, std::vector<variantType>> get_input_data();
+    uint32_t rows () const {
+        return row_count;
+    }
     void log() const;
     void log_columns() const;
     std::vector<variantType> get_column_data(const std::string&);
+    friend std::vector<variantType> column_data(const std::string& column, InputHandler& input)
+    {
+        return input.get_column_data (column);
+    }
 
     InputHandler(const std::string& filename)
-        : file_name (filename) {}
+        : file_name (filename)
+    {
+        row_count = 0;
+    }
     
     InputHandler (const InputHandler&) = delete;
     InputHandler& operator= (const InputHandler&) = delete;
@@ -41,6 +51,7 @@ public:
     InputHandler& operator= (InputHandler&&) noexcept = default;
 
 private:
+    uint32_t row_count;
     std::string file_name;
     /**
      * column names used as keys

@@ -6,12 +6,15 @@
 #include <sstream>
 #include <algorithm>
 
-using namespace io;
+using namespace hydro;
 
-io::InputHandler::InputHandler(const std::string& filename)
-    : file_name (filename) {}
+hydro::InputHandler::InputHandler(const std::string& filename)
+    : file_name (filename)
+{
+    row_count = 0;
+}
 
-std::unordered_map<std::string, std::vector<io::variantType>> io::InputHandler::get_input_data()
+std::unordered_map<std::string, std::vector<hydro::variantType>> hydro::InputHandler::get_input_data()
 {
     std::ifstream file(file_name);
     if (!file.is_open())
@@ -45,28 +48,30 @@ std::unordered_map<std::string, std::vector<io::variantType>> io::InputHandler::
         {
             if (index < column_names.size())
             {
-                if (util::is_double(value))
+                if (hydro::is_double(value) && !hydro::is_uint(value))
                 {
                     input_data[column_names[index]].emplace_back(std::stod(value));
                 }
-                if (util::is_uint(value) && !util::is_double(value))
+                // unsigned int cannot be written to a double
+                if (hydro::is_uint(value))
                 {
                     input_data[column_names[index]].emplace_back(static_cast<uint32_t>(std::stoul(value)));
                 }
-                if (!util::is_double(value) && !(util::is_uint(value)))
+                if (!hydro::is_double(value) && !(hydro::is_uint(value)))
                 {
                     input_data[column_names[index]].emplace_back(value);
                 }
                 ++index;
             }
         }
+        ++row_count;
     }
 
     file.close();
     return input_data;
 }
 
-void io::InputHandler::log() const
+void hydro::InputHandler::log() const
 {
     // validate input_data before logging
 
@@ -96,7 +101,7 @@ void io::InputHandler::log() const
     }
 }
 
-void io::InputHandler::log_columns () const
+void hydro::InputHandler::log_columns () const
 {
     for (const auto& pair : input_data) {
         std::cout << pair.first << std::endl;  // pair.first gives the key (std::string)
@@ -105,7 +110,7 @@ void io::InputHandler::log_columns () const
     std::cout << std::endl;
 }
 
-std::vector<variantType> io::InputHandler::get_column_data(const std::string &key) const
+std::vector<variantType> hydro::InputHandler::get_column_data(const std::string &key)
 {
     if (std::count(column_names.begin(), column_names.end(), key) > 0){
         std::vector<variantType> vec = input_data[key];
@@ -116,12 +121,6 @@ std::vector<variantType> io::InputHandler::get_column_data(const std::string &ke
     }
 }
 
-bool io::InputHandler::is_valid(const std::unordered_map<std::string, std::vector<variantType>>& data) const
-{
-    for (const auto& pair : data) {
-        if (pair.second.empty()) {
-            return false;
-        }
-    }
-    return true;
+uint32_t hydro::InputHandler::rows() const {
+    return row_count;
 }

@@ -7,34 +7,17 @@
 #include <stdexcept>
 #include <iostream>
 
-#include "../io/output_handler.hpp"
-#include "../io/config_parser.hpp"
+// #include "../io/output_handler.hpp"
+// #include "../io/config_parser.hpp"
 #include "../io/input_handler.hpp"
-#include "boundary_conditions.hpp"
-#include "output_handler.hpp"
-#include "results.hpp"
+// #include "boundary_conditions.hpp"
+// #include "output_handler.hpp"
+// #include "results.hpp"
 #include "pipe.hpp"
 
 
-/**
- * WasteWaterModel (alias WWM)
- * 1. Initialization
- * 2. Run Simulation loop
- * 3. Collect and store results
- * 4. Interraction with other classes
- *      - @class InputHandler
- *      - @class ConfigParser
- *      - @class Pipe
- *      - @class FLowSolver 
- *      - @class QualitySolver
- *      - @class BoundaryConditions
- *      - @class Results
- *      - @class CommandLineUI
- *      - @class OutputHandler
- */
 
-
-namespace core
+namespace hydro
 {
     class WasteWaterModelException : public std::runtime_error
     {
@@ -43,23 +26,39 @@ namespace core
             : std::runtime_error (msg) {}
     };
 
+    /**
+     * WasteWaterModel (alias WWM)
+     * 1. Initialization
+     * 2. Run Simulation loop
+     * 3. Collect and store results
+     * 4. Interraction with other classes
+     *      - @param InputHandler
+     *      - @param ConfigParser
+     *      - @param Pipe
+     *      - @param FLowSolver 
+     *      - @param QualitySolver
+     *      - @param BoundaryConditions
+     *      - @param Results
+     *      - @param CommandLineUI
+     *      - @param OutputHandler
+     */
     class WasteWaterModel
     {
     private:
         /* set up pipe network */
-        void setup_pipe__network(std::unordered_map<std::string, std::vector<variantType>>&);
+        void setup_pipe__network(InputHandler&);
         /* validate model setup */
-        void validate_model() const;
-        /* solve flow equations */
-        void solve_flow_equations();
-        /* update results after simulation */
-        void update_results();
+        // void validate_model() const;
+        // /* solve flow equations */
+        // void solve_flow_equations();
+        // /* update results after simulation */
+        // void update_results();
 
-        std::vector<std::shared_ptr<Pipe> > pipes;
-        Results simulation_results;
-        std::shared_ptr<BoundaryConditions> boundary_conditions;
-        double simulation_time;
-        double timestep;
+        std::vector<Pipe> pipes;
+        // Results simulation_results;
+        // std::shared_ptr<BoundaryConditions> boundary_conditions;
+        // double simulation_time;
+        // double timestep;
     public:
         WasteWaterModel(/* args */) = default;
 
@@ -70,21 +69,20 @@ namespace core
         WasteWaterModel& operator= (WasteWaterModel&&) noexcept = default;
 
         /* initialize model parameters */
-        // void initialize (const InputHandler&, const ConfigParser&);
         void initialize();
         /* run simulation */
         void run_simulation();
         /* boundary conditions - to pipes if any */
-        void apply_boundary_conditions(const BoundaryConditions&);
-        /* retrieve results */
-        const Results& get_results() const;
-        /* real-time modification of results */
-        void modify_results(OutputHandler&);
+        // void apply_boundary_conditions(const BoundaryConditions&);
+        // /* retrieve results */
+        // const Results& get_results() const;
+        // /* real-time modification of results */
+        // void modify_results(OutputHandler&);
 
         ~WasteWaterModel() noexcept = default;
     };
 
-} // namespace core
+} // namespace hydro
 
 
 #endif

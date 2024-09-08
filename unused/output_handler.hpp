@@ -1,7 +1,7 @@
 #ifndef OUTPUT_HANDLER_H
 #define OUTPUT_HANDLER_H
 
-namespace io
+namespace hydro
 {
     class OutputHandler
     {
@@ -16,7 +16,7 @@ namespace io
         OutputHandler (OutputHandler&&) noexcept = default;
         OutputHandler& operator= (OutputHandler&&) noexcept = default;
     };
-} // namespace io
+} // namespace hydro
 
 
 #endif

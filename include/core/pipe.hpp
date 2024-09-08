@@ -14,15 +14,16 @@
 #include <cmath>
 #include <exception>
 
-using namespace util;
+using namespace hydro;
 
-namespace core
+namespace hydro
 {
 
 	constexpr double gravity = 9.81;
 	class Pipe
 	{
 	public:
+		Pipe() = default;
 		Pipe(
 			uint32_t _id, double _length, 
 			double _diameter, double _roughness = 0.0, 
@@ -283,7 +284,7 @@ namespace core
 		}
 	};
 
-} // namespace core
+} // namespace hydro
 
 
 #endif	// PIPE_H

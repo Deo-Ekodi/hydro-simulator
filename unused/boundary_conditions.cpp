@@ -1,7 +1,7 @@
 #include "../../include/core/boundary_conditions.hpp"
 
-using namespace core;
-using namespace io;
+using namespace hydro;
+using namespace hydro;
 
 void BoundaryConditions::add_condition(const std::string& location, BoundaryType type, double value, std::string description = "")
 {
@@ -43,7 +43,7 @@ void BoundaryConditions::apply_to_pipe(Pipe& pipe) const
     ;
 }
 
-void BoundaryConditions::validate_condition () const
+void BoundaryConditions::validate_condition (const BoundaryCondition& boundary) const
 {
     /**
      * BoundaryType::inlet

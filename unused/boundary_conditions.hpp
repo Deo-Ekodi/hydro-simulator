@@ -12,9 +12,7 @@
 #include "pipe.hpp"
 #include "waste_water_model.hpp"
 
-using namespace io;
-
-namespace core
+namespace hydro
 {
     enum class BoundaryType
     {
@@ -68,7 +66,7 @@ namespace core
         ~BoundaryConditions() noexcept = default;
     };
 
-} // namespace core
+} // namespace hydro
 
 
 #endif
