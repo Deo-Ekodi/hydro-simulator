@@ -35,3 +35,4 @@
 
 # custom executable
 input
+*.tsv

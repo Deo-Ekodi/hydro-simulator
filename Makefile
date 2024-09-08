@@ -7,9 +7,9 @@ BIN_DIR := bin
 EXEC := $(BIN_DIR)/hydro
 
 # recursively locate all .cpp files under src/
-SRCS := $(shell find $(SRC_DIR) -name '*.cpp')
+SRCS := $(shell find $(SRC_DIR) -type f -name '*.cpp')
 # associate all .o files with their respective named .cpp files
-OBJS := $(SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR/%.o))
+OBJS := $(patsubst SRCS:$(SRC_DIR)/%.cpp,$(BUILD_DIR/%.o),$(SRCS))
 
 all: $(EXEC)
 
@@ -25,6 +25,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 clean:
 	rm -rf $(BUILD_DIR) $(BIN_DIR)
+	clear
 
 rebuild: clean all
 
