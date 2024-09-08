@@ -86,7 +86,9 @@ std::unordered_map<std::string, std::vector<variantType>> InputHandler::get_inpu
                 ++index;
             }
         }
+        ++row_count;
     }
+    // debugging column size
     // for (const auto& [key, vec]: input_data){
     //     std::cout << key << "\t" << vec.size() << std::endl;
     // }

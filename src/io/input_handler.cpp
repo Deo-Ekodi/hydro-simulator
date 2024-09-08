@@ -9,7 +9,10 @@
 using namespace hydro;
 
 hydro::InputHandler::InputHandler(const std::string& filename)
-    : file_name (filename) {}
+    : file_name (filename)
+{
+    row_count = 0;
+}
 
 std::unordered_map<std::string, std::vector<hydro::variantType>> hydro::InputHandler::get_input_data()
 {
@@ -61,6 +64,7 @@ std::unordered_map<std::string, std::vector<hydro::variantType>> hydro::InputHan
                 ++index;
             }
         }
+        ++row_count;
     }
 
     file.close();
@@ -117,12 +121,6 @@ std::vector<variantType> hydro::InputHandler::get_column_data(const std::string 
     }
 }
 
-bool hydro::InputHandler::is_valid(const std::unordered_map<std::string, std::vector<variantType>>& data) const
-{
-    for (const auto& pair : data) {
-        if (pair.second.empty()) {
-            return false;
-        }
-    }
-    return true;
+uint32_t hydro::InputHandler::rows() const {
+    return row_count;
 }

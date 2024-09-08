@@ -22,8 +22,11 @@ namespace hydro
 
     class InputHandler
     {
+    private:
+        uint32_t row_count;
+
     public:
-        explicit InputHandler(const std::string& filename);
+        InputHandler(const std::string& filename);
 
         InputHandler(const InputHandler&) = delete;
         InputHandler& operator= (const InputHandler&) = delete;
@@ -43,10 +46,10 @@ namespace hydro
         std::unordered_map<std::string, std::vector<variantType>> input_data;
         /* list of column names */
         std::vector<std::string> column_names;
+        uint32_t rows() const;
         void log() const;
         void log_columns() const;
         std::vector<variantType> get_column_data(const std::string&);
-        bool is_valid(const std::unordered_map<std::string, std::vector<variantType>>&) const;
     };
     
 

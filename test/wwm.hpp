@@ -40,7 +40,7 @@ class WasteWaterModel
 {
 public:
     /* set up pipe network */
-    void setup_pipe_network(std::unordered_map<std::string, std::vector<variantType>>&);
+    void setup_pipe_network(InputHandler&);
     /* validate model setup */
     void validate_model() const;
     /* solve flow equations */
@@ -66,7 +66,7 @@ public:
     /* run simulation */
     void run_simulation();
 
-    ~WasteWaterModel() noexcept = default;
+    // ~WasteWaterModel() noexcept = default;
 };
 
 #endif

@@ -2,7 +2,6 @@
 #include "../../include/io/input_handler.hpp"
 
 using namespace hydro;
-using namespace hydro;
 
 bool is_uint(const std::string& str){
     if (str.empty()) return false;
@@ -28,8 +27,12 @@ bool is_alphabetic(const std::string& str){
     return true;
 }
 
-void printVariant(const variantType& var) {
-    std::visit([](const auto& value) {
-        std::cout << value << " ";  // Print the value stored in the variant
-    }, var);
+bool is_valid(const std::unordered_map<std::string, std::vector<variantType>>& data)
+{
+    for (const auto& pair : data) {
+        if (pair.second.empty()) {
+            return false;
+        }
+    }
+    return true;
 }
