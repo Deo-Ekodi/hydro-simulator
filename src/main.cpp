@@ -2,9 +2,14 @@
 #include "../include/core/pipe.hpp"
 #include "../include/core/waste_water_model.hpp"
 
+using namespace hydro;
+
 int main()
 {
+    InputHandler input("data.tsv");
+    input.get_input_data();
     WasteWaterModel model;
-    model.run_simulation();
+    model.setup_pipe__network(input);
+    model.log_pipes();
     return 0;
 }

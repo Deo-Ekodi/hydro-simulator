@@ -48,16 +48,16 @@ std::unordered_map<std::string, std::vector<hydro::variantType>> hydro::InputHan
         {
             if (index < column_names.size())
             {
-                if (hydro::is_double(value) && !hydro::is_uint(value))
+                if (is_double(value) && !is_uint(value))
                 {
                     input_data[column_names[index]].emplace_back(std::stod(value));
                 }
                 // unsigned int cannot be written to a double
-                if (hydro::is_uint(value))
+                if (is_uint(value))
                 {
                     input_data[column_names[index]].emplace_back(static_cast<uint32_t>(std::stoul(value)));
                 }
-                if (!hydro::is_double(value) && !(hydro::is_uint(value)))
+                if (!is_double(value) && !(is_uint(value)))
                 {
                     input_data[column_names[index]].emplace_back(value);
                 }

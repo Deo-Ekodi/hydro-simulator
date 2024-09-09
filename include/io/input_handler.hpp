@@ -38,7 +38,7 @@ namespace hydro
 
         // InputHandler get_boundary_conditions () const;
 
-        ~InputHandler() noexcept = default;
+        // ~InputHandler() noexcept = default;
 
         /* name of file parsed */
         std::string file_name;

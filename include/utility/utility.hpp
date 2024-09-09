@@ -1,7 +1,9 @@
 #ifndef UTILITYH_H
 #define UtILITYH_H
 
+#include "../io/input_handler.hpp"
 #include "../util.hpp"
+#include <unordered_map>
 
 #include <string>
 #include <cstdint>

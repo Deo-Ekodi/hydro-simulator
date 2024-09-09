@@ -42,9 +42,11 @@ namespace hydro
      *      - @param CommandLineUI
      *      - @param OutputHandler
      */
+
     class WasteWaterModel
     {
-    private:
+    // private:
+    public:
         /* set up pipe network */
         void setup_pipe__network(InputHandler&);
         /* validate model setup */
@@ -59,7 +61,7 @@ namespace hydro
         // std::shared_ptr<BoundaryConditions> boundary_conditions;
         // double simulation_time;
         // double timestep;
-    public:
+    // public:
         WasteWaterModel(/* args */) = default;
 
         WasteWaterModel (const WasteWaterModel&) = delete;
@@ -68,6 +70,7 @@ namespace hydro
         WasteWaterModel (WasteWaterModel&&) noexcept = default;
         WasteWaterModel& operator= (WasteWaterModel&&) noexcept = default;
 
+        void log_pipes() const;
         /* initialize model parameters */
         void initialize();
         /* run simulation */
@@ -79,7 +82,7 @@ namespace hydro
         // /* real-time modification of results */
         // void modify_results(OutputHandler&);
 
-        ~WasteWaterModel() noexcept = default;
+        // ~WasteWaterModel() noexcept = default;
     };
 
 } // namespace hydro
