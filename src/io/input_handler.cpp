@@ -117,7 +117,7 @@ std::vector<variantType> hydro::InputHandler::get_column_data(const std::string 
         return vec;
     }
     else {
-        throw InputHandlerException ("failed to read column [" + key + "]");
+        throw InputHandlerException ("failed to read out-of-bounds column [" + key + "]");
     }
 }
 

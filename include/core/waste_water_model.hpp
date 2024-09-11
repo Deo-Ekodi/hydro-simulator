@@ -16,7 +16,6 @@
 #include "pipe.hpp"
 
 
-
 namespace hydro
 {
     class WasteWaterModelException : public std::runtime_error
@@ -48,7 +47,7 @@ namespace hydro
     // private:
     public:
         /* set up pipe network */
-        void setup_pipe__network(InputHandler&);
+        void setup_pipes(InputHandler&);
         /* validate model setup */
         // void validate_model() const;
         // /* solve flow equations */

@@ -14,7 +14,7 @@ namespace hydro
         //  */
         // InputHandler input("data.tsv");
 
-        // setup_pipe__network(input);
+        // setup_pipes(input);
         // boundary_conditions = std::make_shared<BoundaryConditions>();
         // boundary_conditions->load_input_from_configparser(config_parser);
         // simulation_time = 0.0;
@@ -51,7 +51,7 @@ namespace hydro
         
     }
 
-    void WasteWaterModel::setup_pipe__network(InputHandler& input)
+    void WasteWaterModel::setup_pipes(InputHandler& input)
     {
         uint32_t index = 0;
         uint32_t number_of_pipes = input.rows();
@@ -64,17 +64,18 @@ namespace hydro
 
         std::vector<variantType> id = input.get_column_data(ID);
         std::vector<variantType> length = input.get_column_data(Length);
-        // std::vector<variantType> node1 = input.get_column_data(Node1);
-        // std::vector<variantType> node2 = input.get_column_data(Node2);
+        std::vector<variantType> node1 = input.get_column_data(Node1);
+        std::vector<variantType> node2 = input.get_column_data(Node2);
         std::vector<variantType> diameter = input.get_column_data(Diameter);
 
+    // multithreading support in assignment
         while (index < number_of_pipes) {
             Pipe pipe;
             pipe.id = std::get<uint32_t>(id.at(index));
             pipe.diameter = std::get<double>(diameter.at(index));
             pipe.length = std::get<double>(length.at(index));
-            // pipe.start_node->id = std::get<uint32_t>(node1.at(index));
-            // pipe.end_node->id = std::get<uint32_t>(node2.at(index));
+            pipe.start_node.id = std::get<uint32_t>(node1.at(index));
+            pipe.end_node.id = std::get<uint32_t>(node2.at(index));
 
             pipes.push_back(pipe);
             ++index;

@@ -10,7 +10,6 @@ class Pipe
 public:
     Pipe()
     {
-        id = 0;
         length = 10.5;
         diameter = 10.0;
     }
@@ -18,8 +17,8 @@ public:
     uint32_t id;					/* unique identifier */
     double length;					/* length of pipe */
     double diameter;				/* diameter if pipe*/
-    // Node start_node;				/* start node */
-    // Node end_node;					/* end node */
+    Node start_node;				/* start node */
+    Node end_node;					/* end node */
 
     void set_id(const uint32_t& _id) {id = _id;}
     void set_length(const double& _l) {length = _l;}

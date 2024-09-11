@@ -6,24 +6,8 @@ void WasteWaterModel::setup_pipe_network(InputHandler& input)
     uint32_t number_of_pipes = input.rows();
 
     std::unordered_map<std::string, std::vector<variantType>> data = input.get_input_data();
-    // get vectors for pipe data here - get_column_data(string) in InputHandler
-    // initalize pipes here
+
     std::string ID = "ID", Diameter = "Diameter", Node1 = "Node1", Node2 = "Node2", Length = "Length";
-    // for (const auto& pair : data) {
-    //     if (index < number_of_pipes) {
-    //         Pipe pipe;
-    //         if (pair.first == ID) {
-    //             uint32_t id;
-    //             id = std::get<uint32_t>(pair.second.at(index));
-    //             pipe.id = id;
-    //             pipes.push_back(pipe);
-    //         }
-    //         if (pair.second == Diameter) {
-    //             pipe.diameter = std::get<double>(pair.second.at(index));
-    //         }
-    //         pipes.push_back(pipe);
-    //     }
-    // }
 
     std::vector<variantType> id = input.get_column_data(ID);
     std::vector<variantType> length = input.get_column_data(Length);

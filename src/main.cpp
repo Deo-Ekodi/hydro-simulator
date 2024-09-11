@@ -9,7 +9,7 @@ int main()
     InputHandler input("data.tsv");
     input.get_input_data();
     WasteWaterModel model;
-    model.setup_pipe__network(input);
+    model.setup_pipes(input);
     model.log_pipes();
     return 0;
 }

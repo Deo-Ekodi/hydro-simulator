@@ -12,14 +12,16 @@
 #include <iostream>
 #include <numbers>
 #include <cmath>
-#include <exception>
-
-using namespace hydro;
+#include <stdexcept>
 
 namespace hydro
 {
-
-	// constexpr double gravity = 9.81;
+	class PipeException : public std::runtime_error
+	{
+	public:
+		PipeException(const std::string& msg)
+			: std::runtime_error("pipe_ : " + msg) {}
+	};
 	class Pipe
 	{
 	public:
@@ -36,18 +38,19 @@ namespace hydro
 		// 	start_node(_start), 
 		// 	end_node(_end)
 		// 	{
-		// 		// initialize_default_values();
+		// 		initialize_default_values();
 		// 	}
 
 		// core attributes
 		uint32_t id;					/* unique identifier */
 		double length;					/* length of pipe */
-		// double roughnesss				/* gradient */
+		double roughness;				/* gradient */
+		double slope;
 		double diameter;				/* diameter if pipe*/
-		// Node* start_node;				/* start node */
-		// Node* end_node;					/* end node */
+		Node start_node;				/* start node */
+		Node end_node;					/* end node */
 
-		// // flow attributes
+		// flow attributes
 		// double flowrate;
 		// double velocity;
 		// double pressure;
@@ -88,13 +91,17 @@ namespace hydro
 		// 	velocity = 0.0;
 		// 	pressure = 0.0;
 		// 	headloss = 0.0;
-		// 	maxflowrate = calculate_max_flowrate();
+		// 	slope = 0.0;
+		// 	roughness = 0.0;
+		// 	maxflowrate = 0.0;
 		// 	reynoldsnumber = 0.0;
+		// 	maxflowrate = 0.0;
 		// 	temperature = 0.0;
-		// 	pH = 7.0;
+		// 	pH = PH_NEUTRAL;
 		// 	dissolvedoxygen = 8.0;		/* typical D.O (mg/l) */
 		// 	BOD = 0.0;
 		// 	COD = 0.0;
+		// 	material = "__undefined material";
 		// 	wallthickness = 0.0;
 		// 	maximumpressure = 0.0;
 		// 	is_corroded = false;
@@ -159,7 +166,7 @@ namespace hydro
 		// 		reynoldsnumber = (density * velocity * diameter) / kinematic_viscosity;
 		// 	}
 		// 	else{
-		// 		throw std::runtime_error("invalid kinemativ viscosity!");
+		// 		throw PipeException("invalid kinematic viscosity!");
 		// 	}
 		// }
 
@@ -170,12 +177,12 @@ namespace hydro
 		//  */
 		// void calculate_headloss()
 		// {
-		// 	if(reynoldsnumber > 0){
+		// 	if(reynoldsnumber > 0 && diameter > 0){
 		// 		double frictionfactor = calculate_frictionfactor();
-		// 		headloss = (frictionfactor * length * std::pow(velocity, 2)) / (2 * diameter * gravity);
+		// 		headloss = (frictionfactor * length * std::pow(velocity, 2)) / (2 * diameter * hydro::gravity);
 		// 	}
 		// 	else{
-		// 		throw std::runtime_error("calculate reynolds number first!");
+		// 		throw PipeException("calculate reynolds number first!");
 		// 	}
 		// }
 
@@ -185,10 +192,11 @@ namespace hydro
 		//  */
 		// double calculate_frictionfactor()
 		// {
-		// 	if(reynoldsnumber < 4000){
+		// 	if(reynoldsnumber <= 4000){
 		// 		return 64.0 / reynoldsnumber;	/* laminar */
 		// 	}
-		// 	else{ 								/* turbulent */
+		// 	if (reynoldsnumber > 4000)
+		// 	{ 								/* turbulent */
 		// 		double initial_guess = 0.02;
 		// 		double tolerance = 1e-6;
 		// 		double frictionfactor = initial_guess;
@@ -201,6 +209,9 @@ namespace hydro
 		// 		}
 
 		// 		return frictionfactor;
+		// 	}
+		// 	else {
+		// 		throw PipeException ("invalid reynolds");
 		// 	}
 		// }
 
@@ -279,7 +290,7 @@ namespace hydro
 
 		// void log_pipeinfo() const
 		// {
-		// 	;;;;
+		// 	std::cout << "ID : " << id << std::endl;
 		// }
 	};
 

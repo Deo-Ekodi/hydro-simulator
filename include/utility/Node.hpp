@@ -28,11 +28,12 @@ namespace hydro
 	{
 	public:
 		Node () = default;
-		Node(uint32_t& _id)	
-			: id(_id)
-		{}
-			// initialize_default_values();
+		// Node(uint32_t& _id)	
+		// 	: id(_id) 
+		// {
+		// 	initialize_default_values();
 		// }
+
 		// Node(double _x = 0.0, double _y = 0.0, double _z = 0.0, uint32_t _id)
 		// 	: x(_x), y(_y), z(_z), id(_id)
 		// {
@@ -41,10 +42,10 @@ namespace hydro
 
 		// // core attributes
 		uint32_t id;
-		// double x, y, z;
-		// std::string description;
+		double x, y, z;
+		std::string description;
 
-		// // hydraulic properties
+		// hydraulic properties
 		// double pressure;
 		// double flow;
 		// double head;
@@ -62,8 +63,8 @@ namespace hydro
 		// double COD;				/* chemical oxygen demand */
 
 		// // connectivity
-		// std::vector<uint32_t&> connected_pipes;		/* ids of connectd pipes */
-		// std::vector<uint32_t&> adjacent_nodes;		/* ids of adjacent nodes */
+		// std::vector<uint32_t> connected_pipes;		/* ids of connectd pipes */
+		// std::vector<uint32_t> adjacent_nodes;		/* ids of adjacent nodes */
 		// bool is_inlet;
 		// bool is_outlet;
 
