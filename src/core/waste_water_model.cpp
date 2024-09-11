@@ -60,13 +60,15 @@ namespace hydro
 
         // get vectors for pipe data here - get_column_data(string) in InputHandler
         // initalize pipes here
-        std::string ID = "ID", Diameter = "Diameter", Node1 = "Node1", Node2 = "Node2", Length = "Length";
+        std::string ID = "ID", Diameter = "Diameter", Node1 = "Node1", Node2 = "Node2", Length = "Length", X = "X", Y = "Y", Z = "Z";
 
         std::vector<variantType> id = input.get_column_data(ID);
         std::vector<variantType> length = input.get_column_data(Length);
         std::vector<variantType> node1 = input.get_column_data(Node1);
         std::vector<variantType> node2 = input.get_column_data(Node2);
         std::vector<variantType> diameter = input.get_column_data(Diameter);
+        std::vector<variantType> x = input.get_column_data(X);
+        std::vector<variantType> y = input.get_column_data(Y);
 
     // multithreading support in assignment
         while (index < number_of_pipes) {
@@ -74,11 +76,50 @@ namespace hydro
             pipe.id = std::get<uint32_t>(id.at(index));
             pipe.diameter = std::get<double>(diameter.at(index));
             pipe.length = std::get<double>(length.at(index));
-            pipe.start_node.id = std::get<uint32_t>(node1.at(index));
-            pipe.end_node.id = std::get<uint32_t>(node2.at(index));
+            // pipe.start_node.id = std::get<uint32_t>(node1.at(index));
+            // pipe.end_node.id = std::get<uint32_t>(node2.at(index));
 
             pipes.push_back(pipe);
             ++index;
+        }
+
+        index = 0;
+        // while (index < number_of_pipes) {
+        //     Node _node1, _node2;
+        //     _node1.id = std::get<uint32_t>(node1.at(index));
+        //     _node2.id = std::get<uint32_t>(node2.at(index));
+
+        //     _node1.x = std::get<double>(x.at(index));
+        //     _node1.y = std::get<double>(y.at(index));
+        // }
+        for (auto& pipe : pipes) {
+            pipe.start_node.id = std::get<uint32_t>(node1.at(index));
+            pipe.start_node.x = std::get<double>(x.at(index));
+            pipe.start_node.y = std::get<double>(y.at(index));
+
+            ++index;
+        }
+
+        index = 0;
+        for (auto& pipe : pipes) {
+            pipe.end_node.id = std::get<uint32_t>(node2.at(index));
+
+            ;
+            ++index;
+        }
+
+        // optional initialization of pipes z coordinates
+        index = 0;
+        if (std::count(input.column_names.begin(), input.column_names.end(), Z) > 0)
+        {
+            std::vector<variantType> z = input.get_column_data(Z);
+
+            while (index < pipes.size())
+            {
+                pipes.at(index).start_node.z = std::get<double>(z.at(index));
+                ++index;
+            }
+            
         }
     }
 
